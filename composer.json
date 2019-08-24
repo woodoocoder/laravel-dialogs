@@ -1,0 +1,25 @@
+{
+    "name": "woodoocoder/laravel-dialogs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roman Pavlyshyn",
+            "email": "pavlyshyn.roma@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Woodoocoder\\LaravelDialogs\\": "src",
+            "Woodoocoder\\LaravelDialogs\\Database\\Seeds\\": "src/database/seeds/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Woodoocoder\\LaravelDialogs\\DialogsServiceProvider"
+            ]
+        }
+    }
+}
