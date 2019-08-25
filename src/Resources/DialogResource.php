@@ -1,12 +1,14 @@
 <?php
 
-namespace Woodoocoder\LaravelLocation\Resource;
+namespace Woodoocoder\LaravelDialogs\Resources;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 
 class DialogResource extends JsonResource {
+
+    use ApiResourceTrait;
     
     /**
      * Transform the resource into an array.

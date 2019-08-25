@@ -3,6 +3,7 @@
 namespace Woodoocoder\LaravelDialogs;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class DialogsServiceProvider extends ServiceProvider {
 
@@ -14,10 +15,11 @@ class DialogsServiceProvider extends ServiceProvider {
     public function register() {
         $useDefaultRounes = config('woodoocoder.dialogs.use_default_routes');
 
-        if($useDefaultRounes) {
-            include __DIR__.'/routes/api.php';
-            $this->app->make('Woodoocoder\LaravelDialogs\DialogsController');
-        }
+
+        Route::prefix('api/dialogs')
+            ->middleware('api')
+            ->namespace('Woodoocoder\LaravelDialogs')
+            ->group(__DIR__ . '/routes/api.php');
 
         $this->commands([
             \Woodoocoder\LaravelDialogs\Console\InitCommand::class,

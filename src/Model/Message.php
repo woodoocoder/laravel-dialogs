@@ -53,6 +53,6 @@ class Message extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user() {
-        return $this->belongsTo(\App\User::class, 'user_id');
+        return $this->belongsTo(config('woodoocoder.dialogs.user_model'), 'user_id');
     }
 }

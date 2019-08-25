@@ -42,7 +42,8 @@ class Dialog extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users() {
-        return $this->belongsToMany(\App\User::class, Participant::class, 'dialog_id', 'user_id');
+        return $this->belongsToMany(config('woodoocoder.dialogs.user_model'),
+            Participant::class, 'dialog_id', 'user_id');
     }
 
     /**

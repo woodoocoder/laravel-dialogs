@@ -1,6 +1,6 @@
 <?php
 
-namespace Woodoocoder\LaravelDialogs;
+namespace Woodoocoder\LaravelDialogs\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
