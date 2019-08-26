@@ -8,19 +8,17 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  *   @OA\Schema(
- *   schema="Message",
+ *   schema="Participant",
  *   type="object",
  *   allOf={
  *       @OA\Schema(
  *           @OA\Property(property="id", format="integer", type="integer"),
- *           @OA\Property(property="dialog_id", type="integer"),
- *           @OA\Property(property="user_id", type="integer"),
- *           @OA\Property(property="message", type="string"),
+ *           @OA\Property(property="user", type="string"),
  *       )
  *   }
  * )
  */
-class MessageResource extends JsonResource {
+class ParticipantResource extends JsonResource {
 
     use ApiResourceTrait;
     
@@ -33,9 +31,7 @@ class MessageResource extends JsonResource {
     public function toArray($request) {
         return [
             'id' => $this->id,
-            'dialog_id' => $this->dialog_id,
-            'user_id' => $this->user_id,
-            'message' => $this->message,
+            'user' => $this->user->first_name,
         ];
     }
 }

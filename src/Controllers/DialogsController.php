@@ -19,45 +19,90 @@ class DialogsController extends Controller {
     public function __construct(DialogRepository $dialogRepo) {
         $this->dialogRepo = $dialogRepo;
     }
-
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/api/dialogs",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Dialogs list",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(ref="#/components/schemas/Dialog")
+     *              )
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *     )
+     * )
      */
     public function index() {
         return DialogResource::collection($this->dialogRepo->paginate());
     }
-
+    
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  CreateRequest  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/dialogs",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Create Dialog",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", format="string", type="string"),
+     *              @OA\Property(property="data", type="object",
+     *                  allOf={
+     *                      @OA\JsonContent(ref="#/components/schemas/Dialog")
+     *                  }
+     *              )
+     *          )
+     *     )
+     * )
      */
     public function store(CreateRequest $request) {
         return new DialogResource($this->dialogRepo->create($request->all()));
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Dialog  $dialog
-     * 
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/api/dialogs/{dialogId}",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Get Dialog",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", format="string", type="string"),
+     *              @OA\Property(property="data", type="object",
+     *                  allOf={
+     *                      @OA\JsonContent(ref="#/components/schemas/Dialog")
+     *                  }
+     *              )
+     *          )
+     *     )
+     * )
      */
     public function show(Dialog $dialog) {
         return new DialogResource($dialog);
     }
-
+    
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateRequest  $request
-     * @param  Dialog  $dialog
-     * 
-     * @return \Illuminate\Http\Response
+     * @OA\Put(
+     *     path="/api/dialogs/{dialogId}",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Update Dialog",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", format="string", type="string"),
+     *              @OA\Property(property="data", type="object",
+     *                  allOf={
+     *                      @OA\JsonContent(ref="#/components/schemas/Dialog")
+     *                  }
+     *              )
+     *          )
+     *     )
+     * )
      */
     public function update(UpdateRequest $request, Dialog $dialog) {
         $isUpdated = $this->dialogRepo->update($request->all(), $dialog->id);
@@ -71,13 +116,16 @@ class DialogsController extends Controller {
         }
         
     }
-
+    
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Dialog  $dialog
-     * 
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *     path="/api/dialogs/{dialogId}",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Delete Dialog"
+     *     )
+     * )
      */
     public function destroy(Dialog $dialog) {
         if($dialog->delete()) {

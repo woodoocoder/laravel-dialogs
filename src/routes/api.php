@@ -16,4 +16,8 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('/{message}', '\Woodoocoder\LaravelDialogs\Controllers\MessagesController@show');
         Route::delete('/{message}', '\Woodoocoder\LaravelDialogs\Controllers\MessagesController@destroy');
     });
+
+    Route::group(['prefix' => '{dialog}/participants'], function () {
+        Route::get('/', '\Woodoocoder\LaravelDialogs\Controllers\ParticipantsController@index');
+    });
 });

@@ -21,23 +21,48 @@ class MessagesController extends Controller {
         $this->messageRepo = $messageRepo;
     }
 
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/api/dialogs/{dialogId}/messages",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Messages list",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(ref="#/components/schemas/Message")
+     *              )
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *     )
+     * )
      */
-    public function index() {
+    public function index(Dialog $dialog) {
         return MessageResource::collection($this->messageRepo->paginate());
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  CreateRequest  $request
-     * 
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/dialogs/{dialogId}/messages",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Create Message",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(ref="#/components/schemas/Message")
+     *              )
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *     )
+     * )
      */
-    public function store(CreateRequest $request) {
+    public function store(CreateRequest $request, Dialog $dialog) {
         return new MessageResource($this->messageRepo->create($request->all()));
     }
 
@@ -52,13 +77,24 @@ class MessagesController extends Controller {
         return new MessageResource($message);
     }
 
+    
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateRequest  $request
-     * @param  Message  $message
-     * 
-     * @return \Illuminate\Http\Response
+     * @OA\Put(
+     *     path="/api/dialogs/{dialogId}/messages/{messageId}",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Update Message",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(ref="#/components/schemas/Message")
+     *              )
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *     )
+     * )
      */
     public function update(UpdateRequest $request, Dialog $dialog, Message $message) {
         $isUpdated = $this->messageRepo->update($request->all(), $message->id);
@@ -74,11 +110,14 @@ class MessagesController extends Controller {
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Message  $message
-     * 
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *     path="/api/dialogs/{dialogId}/messages/{messageId}",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Delete Message"
+     *     )
+     * )
      */
     public function destroy(Dialog $dialog, Message $message) {
         if($message->delete()) {
