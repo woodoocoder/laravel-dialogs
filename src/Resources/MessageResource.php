@@ -4,7 +4,7 @@ namespace Woodoocoder\LaravelDialogs\Resources;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Woodoocoder\LaravelDialogs\Resources\UserResource;
 
 /**
  *   @OA\Schema(
@@ -14,7 +14,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *       @OA\Schema(
  *           @OA\Property(property="id", format="integer", type="integer"),
  *           @OA\Property(property="dialog_id", type="integer"),
- *           @OA\Property(property="user_id", type="integer"),
+ *           @OA\Property(property="user", type="object",
+ *              allOf={
+ *                  @OA\JsonContent(ref="#/components/schemas/DialogUser")
+ *              }
+ *           ),
  *           @OA\Property(property="message", type="string"),
  *           @OA\Property(property="created_at", type="datetime"),
  *       )
@@ -35,7 +39,7 @@ class MessageResource extends JsonResource {
         return [
             'id' => $this->id,
             'dialog_id' => $this->dialog_id,
-            'user_id' => $this->user_id,
+            'user' => new UserResource($this->user),
             'message' => $this->message,
             'created_at' => $this->created_at,
         ];

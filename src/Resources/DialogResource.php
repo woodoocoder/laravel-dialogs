@@ -16,6 +16,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *           @OA\Property(property="subject", type="string"),
  *           @OA\Property(property="count_users", type="integer"),
  *           @OA\Property(property="count_messages", type="integer"),
+ *           @OA\Property(property="latest_message", type="object",
+ *              allOf={
+ *                  @OA\JsonContent(ref="#/components/schemas/Message")
+ *              }
+ *           ),
  *           @OA\Property(property="created_at", type="datetime"),
  *       )
  *   }
@@ -37,7 +42,7 @@ class DialogResource extends JsonResource {
             'subject' => $this->subject,
             'count_users' => $this->users->count(),
             'count_messages' => $this->messages->count(),
-            'latest_message' => $this->latestMessage(),
+            'latest_message' => new MessageResource($this->latestMessage()),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];
