@@ -54,4 +54,15 @@ class Dialog extends Model {
     public function messages() {
         return $this->hasMany(Message::class, 'dialog_id', 'id');
     }
+
+    /**
+     * Returns the latest message from a Dialog.
+     *
+     * @return null|Woodoocoder\LaravelDialogs\Model\Message
+     */
+    public function latestMessage(){
+        return $this->messages()->latest()->first();
+    }
+
+
 }

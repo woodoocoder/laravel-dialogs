@@ -16,6 +16,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *           @OA\Property(property="dialog_id", type="integer"),
  *           @OA\Property(property="user_id", type="integer"),
  *           @OA\Property(property="message", type="string"),
+ *           @OA\Property(property="created_at", type="datetime"),
  *       )
  *   }
  * )
@@ -36,6 +37,7 @@ class MessageResource extends JsonResource {
             'dialog_id' => $this->dialog_id,
             'user_id' => $this->user_id,
             'message' => $this->message,
+            'created_at' => $this->created_at,
         ];
     }
 }

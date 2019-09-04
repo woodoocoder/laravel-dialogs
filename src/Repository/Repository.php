@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 abstract class Repository {
 
     protected $model;
+    public $user;
     
     /**
      * Repository constructor.

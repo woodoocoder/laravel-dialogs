@@ -38,8 +38,10 @@ class DialogsController extends Controller {
      *     )
      * )
      */
-    public function index() {
-        return DialogResource::collection($this->dialogRepo->paginate());
+    public function index(Request $request) {
+        $userId = $request->user()->id;
+
+        return DialogResource::collection($this->dialogRepo->paginateByUser($userId));
     }
     
     /**
@@ -61,7 +63,9 @@ class DialogsController extends Controller {
      * )
      */
     public function store(CreateRequest $request) {
-        return new DialogResource($this->dialogRepo->create($request->all()));
+        $data = $request->all();
+        $userId = $request->user()->id;
+        return new DialogResource($this->dialogRepo->create($userId, $data));
     }
 
     /**

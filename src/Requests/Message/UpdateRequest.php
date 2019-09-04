@@ -25,7 +25,6 @@ class UpdateRequest extends FormRequest {
         
         return [
             'dialog_id' => 'numeric|exists:'.$tablePrefix.'dialogs,id',
-            'user_id' => 'numeric|exists:users,id',
             'message' => 'required|string',
         ];
     }

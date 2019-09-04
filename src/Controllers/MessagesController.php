@@ -40,8 +40,9 @@ class MessagesController extends Controller {
      *     )
      * )
      */
-    public function index(Dialog $dialog) {
-        return MessageResource::collection($this->messageRepo->paginate());
+    public function index(Request $request, Dialog $dialog) {
+        $userId = $request->user()->id;
+        return MessageResource::collection($this->messageRepo->paginateByDialog($userId, $dialog));
     }
 
     /**
@@ -63,7 +64,9 @@ class MessagesController extends Controller {
      * )
      */
     public function store(CreateRequest $request, Dialog $dialog) {
-        return new MessageResource($this->messageRepo->create($request->all()));
+        $data = $request->all();
+        $data['user_id'] = $request->user()->id;
+        return new MessageResource($this->messageRepo->create($data));
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 
-Route::group(['middleware' => 'api'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/', '\Woodoocoder\LaravelDialogs\Controllers\DialogsController@store');
     Route::put('/{dialog}', '\Woodoocoder\LaravelDialogs\Controllers\DialogsController@update');
     Route::get('/', '\Woodoocoder\LaravelDialogs\Controllers\DialogsController@index');
