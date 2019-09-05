@@ -31,7 +31,7 @@ class ParticipantResource extends JsonResource {
     public function toArray($request) {
         return [
             'id' => $this->id,
-            'user' => $this->user->first_name,
+            'user' => new UserResource($this->user),
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace Woodoocoder\LaravelDialogs\Repository;
 
 use Woodoocoder\LaravelDialogs\Model\Dialog;
+use App\User;
 
 class DialogRepository extends Repository {
     
@@ -40,9 +41,28 @@ class DialogRepository extends Repository {
      * 
      * @return mixed
      */
-    public function create(array $attributes) {
+    public function createDialog(int $userId, array $attributes) {
+        $tablePrefix = config('woodoocoder.dialogs.table_prefix');
 
-        return $this->model->create($attributes);
+        $participants = $attributes['participants'];
+        $participants[] = $userId;
+
+        $dialog = $this->model->select('id')->whereHas('participants', function($q) use ($participants) {
+            $q->whereIn('user_id', $participants)
+                ->distinct()
+                ->select('dialog_id')
+                ->groupBy('dialog_id')
+                ->havingRaw('COUNT(dialog_id)='.count($participants));
+        })->first();
+
+        if(!$dialog) {
+            $dialog = $this->model->create(['subject' => 'new dialog']);
+            foreach ($participants as $id) {
+                $dialog->participants()->attach($id);
+            }
+        }
+
+        return $dialog;
     }
     
 }

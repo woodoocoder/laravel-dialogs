@@ -9,15 +9,20 @@ use Woodoocoder\LaravelDialogs\Response\ApiStatus;
 use Woodoocoder\LaravelDialogs\Requests\Dialog\CreateRequest;
 use Woodoocoder\LaravelDialogs\Requests\Dialog\UpdateRequest;
 use Woodoocoder\LaravelDialogs\Repository\DialogRepository;
+use Woodoocoder\LaravelDialogs\Repository\MessageRepository;
 use Woodoocoder\LaravelDialogs\Resources\DialogResource;
+use Woodoocoder\LaravelDialogs\Resources\MessageResource;
 use Woodoocoder\LaravelDialogs\Model\Dialog;
 
 class DialogsController extends Controller {
 
     private $dialogRepo;
+    private $messageRepo;
 
-    public function __construct(DialogRepository $dialogRepo) {
+    public function __construct(DialogRepository $dialogRepo,
+                                MessageRepository $messageRepo) {
         $this->dialogRepo = $dialogRepo;
+        $this->messageRepo = $messageRepo;
     }
     
     /**
@@ -65,7 +70,17 @@ class DialogsController extends Controller {
     public function store(CreateRequest $request) {
         $data = $request->all();
         $userId = $request->user()->id;
-        return new DialogResource($this->dialogRepo->create($userId, $data));
+
+        $dialog = $this->dialogRepo->createDialog($userId, $data);
+        
+        $messageData = [
+            'dialog_id' => $dialog->id,
+            'user_id' => $userId,
+            'message' => $data['message']
+        ];
+        $this->messageRepo->create($messageData);
+
+        return new DialogResource($this->dialogRepo->find($dialog->id));
     }
 
     /**

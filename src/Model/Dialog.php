@@ -3,6 +3,7 @@ namespace Woodoocoder\LaravelDialogs\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\User;
 
 class Dialog extends Model {
     
@@ -54,6 +55,17 @@ class Dialog extends Model {
     public function messages() {
         return $this->hasMany(Message::class, 'dialog_id', 'id');
     }
+
+    /**
+     * Participants relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function participants() {
+        $tablePrefix = config('woodoocoder.dialogs.table_prefix');
+        return $this->belongsToMany(User::class, $tablePrefix.'participants', 'dialog_id', 'user_id');
+    }
+    
 
     /**
      * Returns the latest message from a Dialog.

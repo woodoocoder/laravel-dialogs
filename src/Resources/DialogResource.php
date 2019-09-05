@@ -43,6 +43,7 @@ class DialogResource extends JsonResource {
             'count_users' => $this->users->count(),
             'count_messages' => $this->messages->count(),
             'latest_message' => new MessageResource($this->latestMessage()),
+            'participants' => ParticipantResource::collection($this->participants),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];
