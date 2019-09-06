@@ -14,7 +14,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *       @OA\Schema(
  *           @OA\Property(property="id", format="integer", type="integer"),
  *           @OA\Property(property="subject", type="string"),
- *           @OA\Property(property="count_users", type="integer"),
  *           @OA\Property(property="count_messages", type="integer"),
  *           @OA\Property(property="latest_message", type="object",
  *              allOf={
@@ -37,10 +36,21 @@ class DialogResource extends JsonResource {
      * @return array
      */
     public function toArray($request) {
+        $userId = $request->user()->id;
+
+        // Dialog subject
+        $subject = $this->subject;
+        if(!$subject) {
+            foreach($this->participants as $participant) {
+                if($participant->user_id == $userId) {
+                    $subject = $participant->subject;
+                }
+            }
+        }
+
         return [
             'id' => $this->id,
-            'subject' => $this->subject,
-            'count_users' => $this->users->count(),
+            'subject' => $subject,
             'count_messages' => $this->messages->count(),
             'latest_message' => new MessageResource($this->latestMessage()),
             'participants' => ParticipantResource::collection($this->participants),

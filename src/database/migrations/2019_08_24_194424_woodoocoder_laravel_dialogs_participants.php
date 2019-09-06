@@ -18,7 +18,7 @@ class WoodoocoderLaravelDialogsParticipants extends Migration {
             $table->bigIncrements('id');
             $table->bigInteger('dialog_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->timestamps();
+            $table->string('subject');
             $table->softDeletes();
 
             $table->index(['dialog_id', 'user_id']);

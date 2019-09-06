@@ -26,4 +26,16 @@ class MessageRepository extends Repository {
         return $this->model->where('dialog_id', $dialog->id)
             ->orderBy($orderBy, $sortBy)->paginate($perPage);
     }
+
+    /**
+     * @param array $attributes
+     * 
+     * @return mixed
+     */
+    public function create(array $attributes) {
+        $message = $this->model->create($attributes);
+        $message->dialog->touch();
+
+        return $message;
+    }
 }

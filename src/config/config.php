@@ -4,7 +4,7 @@
  */
 return [
 
-    'table_prefix' => "dialogs_",
+    'table_prefix' => "msg_",
 
     'use_default_routes' => true,
 

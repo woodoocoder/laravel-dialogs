@@ -16,7 +16,7 @@ class WoodoocoderLaravelDialogsDialogs extends Migration {
 
         Schema::create($tablePrefix.'dialogs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('subject');
+            $table->string('subject')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

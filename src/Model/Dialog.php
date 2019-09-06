@@ -43,8 +43,9 @@ class Dialog extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users() {
+        $tablePrefix = config('woodoocoder.dialogs.table_prefix');
         return $this->belongsToMany(config('woodoocoder.dialogs.user_model'),
-            Participant::class, 'dialog_id', 'user_id');
+                $tablePrefix.'participants', 'dialog_id', 'user_id');
     }
 
     /**
@@ -63,7 +64,7 @@ class Dialog extends Model {
      */
     public function participants() {
         $tablePrefix = config('woodoocoder.dialogs.table_prefix');
-        return $this->belongsToMany(User::class, $tablePrefix.'participants', 'dialog_id', 'user_id');
+        return $this->hasMany(Participant::class, 'dialog_id', 'id');
     }
     
 

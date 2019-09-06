@@ -1,9 +1,9 @@
 <?php
 namespace Woodoocoder\LaravelDialogs\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Participant extends Model {
+class Participant extends Pivot {
     
     /**
      * The table associated with the model.
@@ -27,6 +27,7 @@ class Participant extends Model {
     protected $fillable = [
         'dialog_id',
         'user_id',
+        'subject'
     ];
 
     public function __construct(array $attributes = []) {
@@ -40,7 +41,7 @@ class Participant extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function dialog() {
-        return $this->belongsTo(Dialog::class, 'dialog_id', 'id');
+        return $this->hasOne(Dialog::class, 'dialog_id', 'id');
     }
 
     /**

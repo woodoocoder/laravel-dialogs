@@ -46,7 +46,7 @@ class DialogRepository extends Repository {
 
         $participants = $attributes['participants'];
         $participants[] = $userId;
-
+        
         $dialog = $this->model->select('id')->whereHas('participants', function($q) use ($participants) {
             $q->whereIn('user_id', $participants)
                 ->distinct()
@@ -56,9 +56,15 @@ class DialogRepository extends Repository {
         })->first();
 
         if(!$dialog) {
-            $dialog = $this->model->create(['subject' => 'new dialog']);
+            $dialog = $this->model->create();
+            
+            $i=0;
+            $reversedParticipants = array_reverse($participants);
             foreach ($participants as $id) {
-                $dialog->participants()->attach($id);
+                $user = User::find($reversedParticipants[$i]);
+                $dialog->users()->attach($id, ['subject' => $user->firstname]);
+
+                $i++;
             }
         }
 
