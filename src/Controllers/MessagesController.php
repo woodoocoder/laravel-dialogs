@@ -66,7 +66,9 @@ class MessagesController extends Controller {
     public function store(CreateRequest $request, Dialog $dialog) {
         $data = $request->all();
         $data['user_id'] = $request->user()->id;
-        return new MessageResource($this->messageRepo->create($data));
+        $message = new MessageResource($this->messageRepo->create($data));
+
+        return $message;
     }
 
     /**

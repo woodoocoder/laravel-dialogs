@@ -4,6 +4,8 @@ namespace Woodoocoder\LaravelDialogs\Repository;
 
 use Woodoocoder\LaravelDialogs\Model\Message;
 use Woodoocoder\LaravelDialogs\Model\Dialog;
+use Woodoocoder\LaravelDialogs\Events\NewMessage;
+
 
 class MessageRepository extends Repository {
     
@@ -35,6 +37,9 @@ class MessageRepository extends Repository {
     public function create(array $attributes) {
         $message = $this->model->create($attributes);
         $message->dialog->touch();
+
+
+        broadcast(new NewMessage($message))->toOthers();
 
         return $message;
     }
