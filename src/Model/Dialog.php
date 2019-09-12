@@ -66,6 +66,18 @@ class Dialog extends Model {
         $tablePrefix = config('woodoocoder.dialogs.table_prefix');
         return $this->hasMany(Participant::class, 'dialog_id', 'id');
     }
+
+    /**
+     * Checks to see if a user is a current participant of the dialog.
+     *
+     * @param int $userId
+     *
+     * @return bool
+     */
+    public function hasParticipant($userId) {
+        $participants = $this->participants()->where('user_id', '=', $userId)->get();
+        return $participants;
+    }
     
 
     /**

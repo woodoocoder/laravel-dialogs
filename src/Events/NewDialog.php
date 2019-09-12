@@ -7,30 +7,30 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Woodoocoder\LaravelDialogs\Resources\MessageResource;
+use Woodoocoder\LaravelDialogs\Resources\DialogResource;
 
-class NewMessage implements ShouldBroadcast {
+class NewDialog implements ShouldBroadcast {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
-    public $dialogId;
+    public $userId;
     public $data;
 
-    public function __construct($message) {
-        $this->dialogId = $message['dialog_id'];
-        
-        $this->data = new MessageResource($message);
+    public function __construct($dialog, $user) {
+        $this->userId = $user->id;
+
+        $this->data = new DialogResource($dialog);
     }
 
     public function broadcastOn() {
-        return new PrivateChannel('dialog_id.' . $this->dialogId);
+        return new PrivateChannel('dialogs.'.$this->userId);
     }
 
     public function broadcastAs() {
-        return 'new-message';
+        return 'new-dialog';
     }
 
     public function broadcastWith() {
-        return ['data' => $this->data];
+        return ['data' => $this->data, 'user' => $this->userId];
     }
 
     

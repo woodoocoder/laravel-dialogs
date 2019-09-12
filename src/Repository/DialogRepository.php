@@ -4,6 +4,7 @@ namespace Woodoocoder\LaravelDialogs\Repository;
 
 use Woodoocoder\LaravelDialogs\Model\Dialog;
 use App\User;
+use Woodoocoder\LaravelDialogs\Events\NewDialog;
 
 class DialogRepository extends Repository {
     
@@ -68,6 +69,12 @@ class DialogRepository extends Repository {
             }
         }
 
+        foreach($dialog->users as $user) {
+            if($user->id != $userId) {
+                broadcast(new NewDialog($dialog, $user))->toOthers();
+            }
+        }
+        
         return $dialog;
     }
     

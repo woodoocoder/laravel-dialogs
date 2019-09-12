@@ -50,7 +50,6 @@ class DialogResource extends JsonResource {
 
         return [
             'id' => $this->id,
-            'subject' => $subject,
             'count_messages' => $this->messages->count(),
             'latest_message' => new MessageResource($this->latestMessage()),
             'participants' => ParticipantResource::collection($this->participants),

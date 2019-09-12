@@ -5,7 +5,7 @@ namespace Woodoocoder\LaravelDialogs\Repository;
 use Woodoocoder\LaravelDialogs\Model\Message;
 use Woodoocoder\LaravelDialogs\Model\Dialog;
 use Woodoocoder\LaravelDialogs\Events\NewMessage;
-
+use Woodoocoder\LaravelDialogs\Events\NewDialog;
 
 class MessageRepository extends Repository {
     
@@ -38,8 +38,14 @@ class MessageRepository extends Repository {
         $message = $this->model->create($attributes);
         $message->dialog->touch();
 
-
+        
         broadcast(new NewMessage($message))->toOthers();
+
+        foreach($message->dialog->users as $user) {
+            if(auth()->guard('api')->user()->id != $user->id) {
+                broadcast(new NewDialog($message->dialog, $user))->toOthers();
+            }
+        }
 
         return $message;
     }
