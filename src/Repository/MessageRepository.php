@@ -43,7 +43,8 @@ class MessageRepository extends Repository {
 
         foreach($message->dialog->users as $user) {
             if(auth()->guard('api')->user()->id != $user->id) {
-                broadcast(new NewDialog($message->dialog, $user))->toOthers();
+                $user->pivot->increment('unread_messages');
+                broadcast(new NewDialog(Dialog::find($message->dialog->id), $user))->toOthers();
             }
         }
 

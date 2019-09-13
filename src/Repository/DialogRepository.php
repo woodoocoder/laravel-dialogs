@@ -18,6 +18,20 @@ class DialogRepository extends Repository {
     }
 
     /**
+     * @param int $id
+     * 
+     * @return mixed
+     */
+    public function findDialog(int $userId, int $id) {
+        $user = User::find($userId);
+        $dialog = $this->model->find($id);
+
+        $dialog->users()->updateExistingPivot($user, array('unread_messages' => 0), false);
+    
+        return $dialog;
+    }
+
+    /**
      * @param int $userId
      * @param int $perPage
      * 
@@ -71,7 +85,8 @@ class DialogRepository extends Repository {
 
         foreach($dialog->users as $user) {
             if($user->id != $userId) {
-                broadcast(new NewDialog($dialog, $user))->toOthers();
+                $user->pivot->increment('unread_messages');
+                broadcast(new NewDialog($this->find($dialog->id), $user))->toOthers();
             }
         }
         

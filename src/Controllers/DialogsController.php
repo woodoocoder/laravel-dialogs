@@ -101,8 +101,9 @@ class DialogsController extends Controller {
      *     )
      * )
      */
-    public function show(Dialog $dialog) {
-        return new DialogResource($dialog);
+    public function show(Request $request, Dialog $dialog) {
+        $userId = $request->user()->id;
+        return new DialogResource($this->dialogRepo->findDialog($userId, $dialog->id));
     }
     
     /**

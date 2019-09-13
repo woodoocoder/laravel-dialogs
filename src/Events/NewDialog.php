@@ -17,8 +17,7 @@ class NewDialog implements ShouldBroadcast {
 
     public function __construct($dialog, $user) {
         $this->userId = $user->id;
-
-        $this->data = new DialogResource($dialog);
+        $this->data = (new DialogResource($dialog))->userId($user->id);
     }
 
     public function broadcastOn() {

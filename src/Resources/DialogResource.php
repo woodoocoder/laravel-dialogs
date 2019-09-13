@@ -29,6 +29,13 @@ class DialogResource extends JsonResource {
 
     use ApiResourceTrait;
     
+    protected $userId = null;
+
+    public function userId($userId) {
+        $this->userId = $userId;
+        return $this;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -36,7 +43,7 @@ class DialogResource extends JsonResource {
      * @return array
      */
     public function toArray($request) {
-        $userId = $request->user()->id;
+        $userId = ($this->userId)? $this->userId: $request->user()->id;
         
         $subject = $this->subject;
         $unreadMessages = 0;

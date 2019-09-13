@@ -47,7 +47,7 @@ class Dialog extends Model {
 
         return $this->belongsToMany(config('woodoocoder.dialogs.user_model'),
                 $tablePrefix.'participants', 'dialog_id', 'user_id')
-                ->withPivot('subject', 'unread_messages');
+                ->withPivot('id', 'subject', 'unread_messages');
     }
 
     /**
