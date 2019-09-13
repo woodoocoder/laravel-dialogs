@@ -17,8 +17,8 @@ class WoodoocoderLaravelDialogsMessageActions extends Migration {
             $table->bigIncrements('id');
             $table->bigInteger('message_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->boolean('is_seen')->default(0);
-            $table->boolean('is_deleted')->default(0);
+            $table->boolean('seen')->default(0);
+            $table->boolean('deleted')->default(0);
             
             $table->timestamps();
             $table->softDeletes();

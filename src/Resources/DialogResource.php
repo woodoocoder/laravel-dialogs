@@ -37,14 +37,13 @@ class DialogResource extends JsonResource {
      */
     public function toArray($request) {
         $userId = $request->user()->id;
-
-        // Dialog subject
+        
         $subject = $this->subject;
-        if(!$subject) {
-            foreach($this->participants as $participant) {
-                if($participant->user_id == $userId) {
-                    $subject = $participant->subject;
-                }
+        $unreadMessages = 0;
+        foreach($this->users as $user) {
+            if($user->id == $userId) {
+                $subject = (!$subject)?$user->pivot->subject:'';
+                $unreadMessages = $user->pivot->unread_messages;
             }
         }
 
@@ -53,6 +52,8 @@ class DialogResource extends JsonResource {
             'count_messages' => $this->messages->count(),
             'latest_message' => new MessageResource($this->latestMessage()),
             'participants' => ParticipantResource::collection($this->participants),
+            'subject' => $subject,
+            'unread_messages' => $unreadMessages,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];

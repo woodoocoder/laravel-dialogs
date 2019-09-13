@@ -30,7 +30,7 @@ class Message extends Model {
     protected $fillable = [
         'dialog_id',
         'user_id',
-        'message'
+        'message',
     ];
 
     public function __construct(array $attributes = []) {

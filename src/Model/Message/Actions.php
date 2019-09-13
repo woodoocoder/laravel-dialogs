@@ -3,6 +3,7 @@ namespace Woodoocoder\LaravelDialogs\Model\Message;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Woodoocoder\LaravelDialogs\Model\Message;
 
 class Actions extends Model {
     
@@ -30,12 +31,21 @@ class Actions extends Model {
     protected $fillable = [
         'message_id',
         'user_id',
-        'is_seen',
-        'is_deleted',
+        'seen',
+        'deleted',
     ];
 
     public function __construct(array $attributes = []) {
         $this->table = config('woodoocoder.dialogs.table_prefix').$this->table;
         parent::__construct($attributes);
+    }
+
+    /**
+     * Message relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function dialog() {
+        return $this->hasOne(Message::class, 'message_id', 'id');
     }
 }

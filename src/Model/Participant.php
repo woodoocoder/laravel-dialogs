@@ -27,7 +27,8 @@ class Participant extends Pivot {
     protected $fillable = [
         'dialog_id',
         'user_id',
-        'subject'
+        'subject',
+        'unread_messages',
     ];
 
     public function __construct(array $attributes = []) {

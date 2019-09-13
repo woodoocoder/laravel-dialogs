@@ -41,6 +41,7 @@ class MessageResource extends JsonResource {
             'dialog_id' => $this->dialog_id,
             'user' => new UserResource($this->user),
             'message' => $this->message,
+            'seen' => $this->seen,
             'created_at' => $this->created_at,
         ];
     }
