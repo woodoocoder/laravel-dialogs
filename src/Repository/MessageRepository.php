@@ -2,6 +2,7 @@
 
 namespace Woodoocoder\LaravelDialogs\Repository;
 
+use Woodoocoder\LaravelHelpers\DB\Repository;
 use Woodoocoder\LaravelDialogs\Model\Message;
 use Woodoocoder\LaravelDialogs\Model\Dialog;
 use Woodoocoder\LaravelDialogs\Events\NewMessage;

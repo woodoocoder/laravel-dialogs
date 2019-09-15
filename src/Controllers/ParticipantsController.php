@@ -4,6 +4,7 @@ namespace Woodoocoder\LaravelDialogs\Controllers;
 
 use Illuminate\Http\Request;
 
+use Woodoocoder\LaravelHelpers\Api\Controller;
 use Woodoocoder\LaravelDialogs\Repository\ParticipantRepository;
 use Woodoocoder\LaravelDialogs\Resources\ParticipantResource;
 use Woodoocoder\LaravelDialogs\Model\Dialog;

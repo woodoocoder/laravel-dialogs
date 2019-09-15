@@ -2,9 +2,10 @@
 
 namespace Woodoocoder\LaravelDialogs\Repository;
 
+use Woodoocoder\LaravelHelpers\DB\Repository;
 use Woodoocoder\LaravelDialogs\Model\Dialog;
-use App\User;
 use Woodoocoder\LaravelDialogs\Events\NewDialog;
+use App\User;
 
 class DialogRepository extends Repository {
     

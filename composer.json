@@ -8,7 +8,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "woodoocoder/laravel-helpers": "^0.1"
+    },
     "autoload": {
         "psr-4": {
             "Woodoocoder\\LaravelDialogs\\": "src",

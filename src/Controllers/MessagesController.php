@@ -4,6 +4,7 @@ namespace Woodoocoder\LaravelDialogs\Controllers;
 
 use Illuminate\Http\Request;
 
+use Woodoocoder\LaravelHelpers\Api\Controller;
 use Woodoocoder\LaravelDialogs\Response\ApiMessage;
 use Woodoocoder\LaravelDialogs\Response\ApiStatus;
 use Woodoocoder\LaravelDialogs\Requests\Message\CreateRequest;
