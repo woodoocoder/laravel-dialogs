@@ -47,7 +47,7 @@ class DialogsController extends Controller {
     public function index(Request $request) {
         $userId = $request->user()->id;
 
-        return DialogResource::collection($this->dialogRepo->paginateByUser($userId));
+        return DialogResource::collection($this->dialogRepo->paginateByUserId($userId));
     }
     
     /**

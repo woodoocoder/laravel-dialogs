@@ -38,7 +38,7 @@ class DialogRepository extends Repository {
      * 
      * @return LengthAwarePaginator
      */
-    public function paginateByUser(int $userId, int $perPage = 20, string $orderBy = 'id', string $sortBy = 'desc') {
+    public function paginateByUserId(int $userId, int $perPage = 20, string $orderBy = 'id', string $sortBy = 'desc') {
         $tablePrefix = config('woodoocoder.dialogs.table_prefix');
 
         return $this->model
