@@ -31,6 +31,4 @@ class NewDialog implements ShouldBroadcast {
     public function broadcastWith() {
         return ['data' => $this->data, 'user' => $this->userId];
     }
-
-    
 }

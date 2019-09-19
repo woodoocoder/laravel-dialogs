@@ -9,9 +9,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Woodoocoder\LaravelDialogs\Resources\MessageResource;
 
-class NewMessage implements ShouldBroadcast {
+class MessageSeen {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    
+
     public $dialogId;
     public $data;
 
@@ -24,9 +24,8 @@ class NewMessage implements ShouldBroadcast {
     public function broadcastOn() {
         return new PrivateChannel('dialog_id.' . $this->dialogId);
     }
-
     public function broadcastAs() {
-        return 'new-message';
+        return 'message-edited';
     }
 
     public function broadcastWith() {
