@@ -85,6 +85,27 @@ class DialogsController extends Controller {
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/dialogs/mark_reed/{dialogId}",
+     *     tags={"Dialogs"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Mark as reed all messages in Dialog"
+     *     )
+     * )
+     */
+    public function mark_reed(Request $request, int $dialogId) {
+        $userId = $request->user()->id;
+
+        if($this->messageRepo->markReedAll($userId, $dialogId)) {
+            return new ApiMessage();
+        }
+        else {
+            return new ApiMessage(ApiStatus::ERROR);
+        }
+    }
+
+    /**
      * @OA\Get(
      *     path="/api/dialogs/{dialogId}",
      *     tags={"Dialogs"},

@@ -4,6 +4,8 @@ namespace Woodoocoder\LaravelDialogs\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Woodoocoder\LaravelDialogs\Model\Message\Actions;
+
 class Message extends Model {
     
     use SoftDeletes;
@@ -54,5 +56,14 @@ class Message extends Model {
      */
     public function user() {
         return $this->belongsTo(config('woodoocoder.dialogs.user_model'), 'user_id');
+    }
+
+    /**
+     * Actions relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function actions() {
+        return $this->hasOne(Actions::class, 'id', 'message_id');
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Woodoocoder\LaravelDialogs\Resources\MessageResource;
 
-class MessageSeen {
+class MessageEdited {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $dialogId;

@@ -28,7 +28,7 @@ class WoodoocoderLaravelDialogsMessageActions extends Migration {
             $table->foreign('message_id')->references('id')->on($tablePrefix.'messages')
                 ->onDelete('cascade');
 
-            $table->foreign('user_id')->references('id')->on($tablePrefix.'participants')
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');
         });
     }

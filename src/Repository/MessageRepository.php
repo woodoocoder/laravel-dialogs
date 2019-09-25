@@ -5,8 +5,10 @@ namespace Woodoocoder\LaravelDialogs\Repository;
 use Woodoocoder\LaravelHelpers\DB\Repository;
 use Woodoocoder\LaravelDialogs\Model\Message;
 use Woodoocoder\LaravelDialogs\Model\Dialog;
+use Woodoocoder\LaravelDialogs\Model\Message\Actions;
 use Woodoocoder\LaravelDialogs\Events\NewMessage;
 use Woodoocoder\LaravelDialogs\Events\NewDialog;
+use Woodoocoder\LaravelDialogs\Events\MessageEdited;
 
 class MessageRepository extends Repository {
     
@@ -39,7 +41,12 @@ class MessageRepository extends Repository {
         $message = $this->model->create($attributes);
         $message->dialog->touch();
 
-        
+        $message->actions()->save(new Actions([
+                'message_id' => $message->id,
+                'user_id' => $attributes['user_id'],
+                'seen' => true
+            ]));
+
         broadcast(new NewMessage($message))->toOthers();
 
         foreach($message->dialog->users as $user) {
@@ -50,5 +57,32 @@ class MessageRepository extends Repository {
         }
 
         return $message;
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * 
+     * @return bool
+     */
+    public function update(array $attributes, int $id): bool {
+        $item = $this->find($id)->update($attributes);
+
+        broadcast(new MessageEdited($this->find($item->id)))->toOthers();
+
+        return $item;
+    }
+
+    public function markReedAll($userId, $dialogId) {
+        $dialog = Dialog::find($dialogId);
+        
+        foreach($dialog->users as $user) {
+            if($user->id == $userId) {
+                $user->pivot->unread_messages = 0;
+                $user->pivot->save();
+            }
+        }
+
+        return true;
     }
 }
